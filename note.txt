@@ -1,0 +1,5 @@
+﻿Chào các bạn, 
+Bạn nào thắc mắc điểm đồ án 2 mà thấp, thì có thể coi lại là khi xử lý bộ nhớ từ user space đưa xuống cho kernel sapce đã gọi các hàm để chuyển đổi chưa, có thể khi các bạn test chạy được, nhưng khi lập trình ở kernel, chúng ta không truy cập trực tiếp vùng nhớ của user space từ kernel space. 
+Tham khảo thêm: https://stackoverflow.com/questions/8265657/how-does-copy-from-user-from-the-linux-kernel-work-internally
+Một ví dụ về lõi linux module đơn giản: https://blog.sourcerer.io/writing-a-simple-linux-kernel-module-d9dc3762c234
+Một bài giới thiệu về viết lõi linux module: http://derekmolloy.ie/writing-a-linux-kernel-module-part-1-introduction/
