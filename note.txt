@@ -3,3 +3,4 @@ Bạn nào thắc mắc điểm đồ án 2 mà thấp, thì có thể coi lại
 Tham khảo thêm: https://stackoverflow.com/questions/8265657/how-does-copy-from-user-from-the-linux-kernel-work-internally
 Một ví dụ về lõi linux module đơn giản: https://blog.sourcerer.io/writing-a-simple-linux-kernel-module-d9dc3762c234
 Một bài giới thiệu về viết lõi linux module: http://derekmolloy.ie/writing-a-linux-kernel-module-part-1-introduction/
+Một bài khác về linux kernel module rất thích hợp cho người mới bắt đầu: http://www.tldp.org/LDP/lkmpg/2.6/html/
