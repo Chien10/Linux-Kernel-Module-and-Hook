@@ -5,3 +5,5 @@ Một ví dụ về lõi linux module đơn giản: https://blog.sourcerer.io/wr
 Một bài giới thiệu về viết lõi linux module: http://derekmolloy.ie/writing-a-linux-kernel-module-part-1-introduction/
 Một bài khác về linux kernel module rất thích hợp cho người mới bắt đầu: http://www.tldp.org/LDP/lkmpg/2.6/html/
 Một nguồn khác rất bổ ích, cung cấp một ví dụ về một character device và chương trình mẫu: https://linux-kernel-labs.github.io/master/labs/device_drivers.html 
+Hook system call: https://tnichols.org/2015/10/19/Hooking-the-Linux-System-Call-Table/
+Old resource for hooking: http://books.gigatux.nl/mirror/networksecuritytools/0596007949/networkst-CHP-7-SECT-2.html
