@@ -5,6 +5,8 @@
 #include <linux/fs.h>             // Header for the Linux file system support
 #include <linux/uaccess.h>        // Required for the copy to user function
 #include <linux/mutex.h>    	  // Mutex functionality
+
+#include <stdlib.h>
 #include <time.h>
 
 #define DEVICE_NAME "RandomGenerator"
@@ -16,8 +18,6 @@ MODULE_DESCRIPTION("A Linux LKM generating random numbers");
 MODULE_VERSION("1.0");
 
 static int MajorNumber;
-static char msgFromUserSpace[256] = {0};
-static short sizeOfStoredMsg;
 static int deviceOpenTimes = 0;
 static struct class *randomGenClass = NULL;
 static struct device *randomGenDevice = NULL;
@@ -87,8 +87,8 @@ static void __exit device_exit(void)
 
 static int device_open(struct inode *inodep, struct file *filep)
 {
-	is_free = mutex_trylock(&ranGenMutex);
-	if (!is_free)
+	isFree = mutex_trylock(&ranGenMutex);
+	if (!isFree)
 	{
 		printk(KERN_ALERT "RandomGenerator: Device Was Being used by Other Process.\n");
 		return -EBUSY;
@@ -98,6 +98,17 @@ static int device_open(struct inode *inodep, struct file *filep)
 	printk(KERN_INFO "RandomGenerator: Device has been Opened %d times", deviceOpenTimes);
 
 	return 0;
+}
+
+static int ssize_t device_read(struct file *filep, char *buffer, size_t len, loff_t *offset)
+{
+	int errCount = 0;
+	
+	int randomNumber;
+	get_random_number(&randomNumber, sizeof randomNumber);
+	randomNumber %= 250;
+
+
 }
 
 static int device_release(struct inode *inodep, struct file *filep)
