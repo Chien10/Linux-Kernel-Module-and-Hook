@@ -5,6 +5,7 @@
 #include <linux/fs.h>             // Header for the Linux file system support
 #include <linux/uaccess.h>        // Required for the copy to user function
 #include <linux/mutex.h>    	  // Mutex functionality
+#include <time.h>
 
 #define DEVICE_NAME "RandomGenerator"
 #define CLASS_NAME "generator"
@@ -84,4 +85,32 @@ static void __exit device_exit(void)
 	printk(KERN_INFO "RandomGenerator: LKM Said Goodby to You :))\n");
 }
 
+static int device_open(struct inode *inodep, struct file *filep)
+{
+	is_free = mutex_trylock(&ranGenMutex);
+	if (!is_free)
+	{
+		printk(KERN_ALERT "RandomGenerator: Device Was Being used by Other Process.\n");
+		return -EBUSY;
+	}
+
+	deviceOpenTimes++;
+	printk(KERN_INFO "RandomGenerator: Device has been Opened %d times", deviceOpenTimes);
+
+	return 0;
+}
+
+static int device_release(struct inode *inodep, struct file *filep)
+{
+	mutex_unclock(&ranGenMutex);
+
+	printk(KERN_INFO "RandomGenerator: Device Successfully Closed.\n");
+
+	retun 0;
+}
+
+
+
+module_init(device_init);
+module_exit(device_exit);
 
