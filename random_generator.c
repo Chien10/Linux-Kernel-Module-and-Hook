@@ -24,15 +24,13 @@ static struct device *randomGenDevice = NULL;
 
 static int     device_open(struct inode *, struct file *);
 static int     device_release(struct inode *, struct file *);
-static ssize_t device_read(struct file *, char *, size_t, loff_t *);
-static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
+static ssize_t device_read(struct file *, char __user *, size_t, loff_t *);
 
 static DEFINE_MUTEX(ranGenMutex);
 
 static struct file_operations fops = {
 	.open = device_open,
 	.read = device_read,
-	.write = device_write,
 	.release = device_release
 };
 
@@ -100,15 +98,27 @@ static int device_open(struct inode *inodep, struct file *filep)
 	return 0;
 }
 
-static int ssize_t device_read(struct file *filep, char *buffer, size_t len, loff_t *offset)
+static ssize_t device_read(struct file *filep, char __user *buffer, size_t len, loff_t *offset)
 {
 	int errCount = 0;
+	int bytesRead = 0;
 	
 	int randomNumber;
 	get_random_number(&randomNumber, sizeof randomNumber);
 	randomNumber %= 250;
 
+	// put_user(from, *to). Ref: https://www.kernel.org/doc/htmldocs/kernel-hacking/routines-copy.html
+	errCount = put_user(randomNumber, buffer);
+	bytesRead = sizeof randomNumber;
 
+	if (errCount == 0)
+	{
+		printk(KERN_INFO "RandomGenerator: Sent to user space %d bytes.\n", bytesRead);
+		return bytesRead;
+	}
+	
+	printk(KERN_ALERT "RandomGenerator: Failed to send %d bytes to user.\n", bytesRead);
+	return -EFAULT;
 }
 
 static int device_release(struct inode *inodep, struct file *filep)
@@ -119,8 +129,6 @@ static int device_release(struct inode *inodep, struct file *filep)
 
 	retun 0;
 }
-
-
 
 module_init(device_init);
 module_exit(device_exit);
