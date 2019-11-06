@@ -1,1 +1,1 @@
-obj-y := pname.o
+obj-y:=pname.o
